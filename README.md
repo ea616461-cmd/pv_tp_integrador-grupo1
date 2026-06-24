@@ -1,27 +1,16 @@
-# 🚀 Panel de Control de Clientes en Tiempo Real
+# React + Vite
 
-Este proyecto consiste en el desarrollo progresivo de una aplicación web funcional para la gestión y control de clientes en tiempo real. La aplicación está construida sobre React y Vite, y se conecta de forma asrincrónica a la API pública FakeStore API para el consumo y persistencia de datos.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
-## 👥 Integrantes del Grupo
+Currently, two official plugins are available:
 
-*   **Avilés Rios, Walter** - [@em616461-cmd]
-*   **Leaño, Gabriel** - [@gabriel11118080]
-*   **Diaz Quispia, Agustín** - [@DiazQuispiaAgustín]
-*   **Cholele, Facundo** - [@143Facu]
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## 🛠️ Tecnologías Utilizadas
+## React Compiler
 
-*   **React** & **Vite** (Entorno de desarrollo rápido)
-*   **React Router DOM** (Enrutamiento modular y navegación entre vistas)
-*   **Context API** & **LocalStorage** (Gestión del estado global y persistencia de sesión)
-*   [MUI / React Bootstrap] (Framework de interfaz de usuario implementado)
-*   **Fetch API / Axios** (Peticiones HTTP asincrónicas con async/await)
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 📁 Estructura del Proyecto
+## Expanding the Oxlint configuration
 
-El código fuente está organizado bajo una arquitectura limpia y modular de carpetas:
-
-*   `src/components/layout/`: Componentes de estructura fijos (Header, Nav, Footer).
-*   `src/components/common/`: Componentes reutilizables pequeños (Formularios, botones, etc.).
-*   `src/context/`: Estado global de autenticación del Administrador (`AdminContext.jsx`).
-*   `src/views/`: Pantallas principales de la aplicación (Login, Dashboard, ListaClientes, DetalleCliente).
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
