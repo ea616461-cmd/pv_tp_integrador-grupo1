@@ -1,7 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-
 export const AdminContext = createContext();
-
 export function AdminProvider({ children }) {
   const [admin, setAdmin] = useState(() => {
     const sesionGuardada = localStorage.getItem('admin_session');
