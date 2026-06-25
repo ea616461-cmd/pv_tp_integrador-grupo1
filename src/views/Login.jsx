@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { AdminContext } from '../context/AdminContext';
 
 export default function Login() {
-  // Traemos tanto el estado (admin) como login y logout del contexto
   const { admin, login, logout } = useContext(AdminContext);
   const navigate = useNavigate();
 
@@ -20,7 +19,7 @@ export default function Login() {
     navigate('/clientes');
   };
 
-  // LA MAGIA: SI YA ESTÁ LOGUEADO, MUESTRA LA TARJETA EN VEZ DEL FORMULARIO
+  // MUESTRA LA TARJETA EN VEZ DEL FORMULARIO
   if (admin) {
     return (
       <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #ccc', textAlign: 'center', background: '#f9f9f9', borderRadius: '8px' }}>
@@ -32,15 +31,13 @@ export default function Login() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {/* Botón para volver al Panel de sus compañeros sin romper nada */}
+          
           <button 
             onClick={() => navigate('/clientes')} 
             style={{ width: '100%', padding: '10px', background: '#1976d2', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
           >
             Ir a Lista de Clientes
           </button>
-
-          {/* Botón de cerrar sesión que limpia el contexto y resetea la vista */}
           <button 
             onClick={logout} 
             style={{ width: '100%', padding: '10px', background: '#d32f2f', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
