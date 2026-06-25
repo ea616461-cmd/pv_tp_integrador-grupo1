@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+// IMPORTACIÓN DEL MÓDULO C: Formulario de Alta de Clientes
+import FormularioCliente from '../components/common/FormularioCliente';
 
 const ListaClientes = () => {
   // 1. ZONA DE ESTADOS (useState)
@@ -48,6 +50,11 @@ const ListaClientes = () => {
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h2 style={{ marginBottom: '5px', color: '#333' }}>Módulo B: Vista de Clientes</h2>
       <p style={{ color: '#666', marginBottom: '20px' }}>Punto 1, 2 y 3 - Sistema Completo con Consumo de API, Buscador y Redirección</p>
+      
+      {/* INYECCIÓN DEL FORMULARIO INTEGRADO (MÓDULO C) */}
+      <FormularioCliente />
+
+      <hr style={{ border: '0', height: '1px', backgroundColor: '#ccc', margin: '30px 0' }} />
       
       {/* CAJA DEL BUSCADOR (Punto 2) */}
       <div style={{ marginBottom: '20px' }}>
