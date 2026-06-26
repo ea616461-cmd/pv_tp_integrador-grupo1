@@ -5,6 +5,7 @@ import ListaClientes from './views/ListaClientes';
 import Login from './views/Login';
 import Header from './components/layout/Header';
 import { AdminContext } from './context/AdminContext'; 
+import DetalleCliente from "./views/DetalleCliente";
 
 function App() {
   const { admin } = useContext(AdminContext); 
@@ -15,6 +16,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/clientes" element={admin ? <ListaClientes /> : <Navigate to="/" />} 
+        />
+        <Route 
+            path="/clientes/:id"
+            element={admin ? <DetalleCliente /> : <Navigate to="/" />}
         />
       </Routes>
     </div>

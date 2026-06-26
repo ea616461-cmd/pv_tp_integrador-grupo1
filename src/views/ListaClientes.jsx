@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 // IMPORTACIÓN DEL MÓDULO C: Formulario de Alta de Clientes
 import FormularioCliente from '../components/common/FormularioCliente';
+import { useNavigate } from "react-router-dom";
 
 const ListaClientes = () => {
+  const navigate = useNavigate();
   // 1. ZONA DE ESTADOS (useState)
   const [clientes, setClientes] = useState([]);
   const [busqueda, setBusqueda] = useState('');
@@ -40,7 +42,7 @@ const ListaClientes = () => {
   // LÓGICA DEL PUNTO 3: MANEJADOR DE CLIC PARA DETALLE
   const manejarVerDetalle = (id) => {
     // Alerta interactiva para demostrar que el sistema captura el ID único del cliente para redireccionar
-    alert(`Redireccionando a la vista de detalle del Cliente con ID: ${id}`);
+    navigate(`/clientes/${id}`);
     
     // Aquí es donde el sistema del grupo conectará con su router de rutas (ej: navigate(`/detalle/${id}`))
   };
