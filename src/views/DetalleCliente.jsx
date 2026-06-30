@@ -1,6 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AdminContext } from "../context/AdminContext";
+import {
+  Container,
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  Button,
+} from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import HomeIcon from "@mui/icons-material/Home";
+import LockIcon from "@mui/icons-material/Lock";
 
 function DetalleCliente() {
   const { id } = useParams();
@@ -66,63 +77,115 @@ function DetalleCliente() {
 };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Ficha del Cliente</h2>
+  <Container maxWidth="lg" sx={{ mt: 4 }}>
+    <Typography
+      variant="h4"
+      align="center"
+      sx={{ mb: 4, fontWeight: "bold" }}
+    >
+      Ficha del Cliente
+    </Typography>
 
-      <p><strong>ID:</strong> {cliente.id}</p>
+    <Grid container spacing={3}>
 
-      <p>
-        <strong>Nombre:</strong>{" "}
-        {cliente.name.firstname} {cliente.name.lastname}
-      </p>
+      {/* Información personal */}
 
-      <p><strong>Email:</strong> {cliente.email}</p>
+      <Grid item xs={12} md={4}>
+        <Card elevation={5}>
+          <CardContent>
 
-      <p><strong>Teléfono:</strong> {cliente.phone}</p>
+            <PersonIcon color="primary" sx={{ fontSize: 40, mb: 1 }} />
 
-      <hr />
+            <Typography variant="h6" gutterBottom>
+              Información Personal
+            </Typography>
 
-      <h3>Dirección</h3>
+            <Typography><strong>Nombre:</strong> {cliente.name.firstname} {cliente.name.lastname}</Typography>
 
-      <p>Calle: {cliente.address.street}</p>
+            <Typography><strong>Email:</strong> {cliente.email}</Typography>
 
-      <p>Número: {cliente.address.number}</p>
+            <Typography><strong>Teléfono:</strong> {cliente.phone}</Typography>
 
-      <p>Ciudad: {cliente.address.city}</p>
+          </CardContent>
+        </Card>
+      </Grid>
 
-      <p>Código Postal: {cliente.address.zipcode}</p>
+      {/* Dirección */}
 
-      <hr />
+      <Grid item xs={12} md={4}>
+        <Card elevation={5}>
+          <CardContent>
+  
+          <HomeIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
 
-      <h3>Credenciales</h3>
+            <Typography variant="h6" gutterBottom>
+              Dirección
+            </Typography>
 
-      <p>Usuario: {cliente.username}</p>
+            <Typography><strong>Calle:</strong> {cliente.address.street}</Typography>
 
-      <p>Contraseña: {cliente.password}</p>
+            <Typography><strong>Número:</strong> {cliente.address.number}</Typography>
 
-        <hr />
+            <Typography><strong>Ciudad:</strong> {cliente.address.city}</Typography>
 
-        <button onClick={() => navigate("/clientes")}>
+            <Typography><strong>Código Postal:</strong> {cliente.address.zipcode}</Typography>
+
+          </CardContent>
+        </Card>
+      </Grid>
+
+      {/* Credenciales */}
+
+      <Grid item xs={12} md={4}>
+        <Card elevation={5}>
+          <CardContent>
+
+            <LockIcon color="warning" sx={{ fontSize: 40, mb: 1 }} />
+
+            <Typography variant="h6" gutterBottom>
+              Credenciales
+            </Typography>
+
+            <Typography><strong>Usuario:</strong> {cliente.username}</Typography>
+
+            <Typography><strong>Contraseña:</strong> {cliente.password}</Typography>
+
+          </CardContent>
+        </Card>
+      </Grid>
+
+    </Grid>
+
+    <div
+      style={{
+        marginTop: "30px",
+        display: "flex",
+        justifyContent: "center",
+        gap: "15px",
+      }}
+    >
+
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => navigate("/clientes")}
+      >
         Volver
-        </button>
+      </Button>
 
-        {admin?.sector === "Gerencia" && (
-        <button
-             onClick={eliminarCliente}
-            style={{
-             marginLeft: "10px",
-             backgroundColor: "red",
-             color: "white",
-            border: "none",
-            padding: "8px 15px",
-            cursor: "pointer",
-            }}
-            >
-            Eliminar Cliente
-            </button>
-            )}
+      {admin?.sector === "Gerencia" && (
+        <Button
+          variant="contained"
+          color="error"
+          onClick={eliminarCliente}
+        >
+          Eliminar Cliente
+        </Button>
+      )}
 
     </div>
+
+  </Container>
   );
 }
 

@@ -18,9 +18,35 @@ export default function Header() {
 
   return (
     <header style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', background: '#222', color: '#fff' }}>
-      <h3>Panel Admin</h3>
+      <h3>Sistema de Gestión de Clientes</h3>
       
       <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <button
+            onClick={() => navigate("/dashboard")}
+            style={{
+            background: "#1976d2",
+           color: "white",
+            border: "none",
+            padding: "8px 15px",
+            borderRadius: "5px",
+             cursor: "pointer"
+              }}
+              >
+               Dashboard
+        </button>
+        <button
+            onClick={() => navigate("/clientes")}
+            style={{
+             background: "#2e7d32",
+            color: "white",
+            border: "none",
+            padding: "8px 15px",
+            borderRadius: "5px",
+             cursor: "pointer"
+            }}
+            >
+            Clientes
+      </button>
         <span>
           👤 <strong>{admin.nombre}</strong> ({admin.sector})
         </span>
