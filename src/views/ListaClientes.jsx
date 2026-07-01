@@ -31,11 +31,23 @@ const ListaClientes = () => {
     obtenerClientes();
   }, []);
 
+  // FUNCIÓN CALLBACK PARA ACOPLAR EL ALTA (MÓDULO C) CON ESTA LISTA LOCAL
+const agregarNuevoClienteALista = (nuevoCliente) => {
+  // Validación de seguridad: comprobamos que no exista ya un ID 11
+  const existeId = clientes.some(c => c.id === nuevoCliente.id);
+  if (!existeId) {
+    // CAMBIO DE ORDEN: Primero desestructuramos los clientes que ya estaban (1 al 10) 
+    // y al final empujamos el nuevoCliente (el 11)
+    setClientes([...clientes, nuevoCliente]); 
+  }
+};
+
   // LÓGICA DEL PUNTO 2: FILTRADO DINÁMICO
   const clientesFiltrados = clientes.filter((user) => {
     const termino = busqueda.toLowerCase();
-    const apellido = user.name.lastname.toLowerCase();
-    const ciudad = user.address.city.toLowerCase();
+    // Validaciones opcionales por si el formato del nuevo cliente difiere levemente de la API
+    const apellido = user.name?.lastname?.toLowerCase() || '';
+    const ciudad = user.address?.city?.toLowerCase() || '';
     return apellido.includes(termino) || ciudad.includes(termino);
   });
 
@@ -52,8 +64,8 @@ const ListaClientes = () => {
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
 
       
-      {/* INYECCIÓN DEL FORMULARIO INTEGRADO (MÓDULO C) */}
-      <FormularioCliente />
+      {/* INYECCIÓN DEL FORMULARIO INTEGRADO (MÓDULO C) PASANDO EL CALLBACK COMO PROP */}
+      <FormularioCliente alAgregarCliente={agregarNuevoClienteALista} />
 
       <hr style={{ border: '0', height: '1px', backgroundColor: '#ccc', margin: '30px 0' }} />
       
