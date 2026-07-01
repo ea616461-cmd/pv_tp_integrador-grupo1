@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// IMPORTACIÓN DEL MÓDULO C: Formulario de Alta de Clientes
-import FormularioCliente from '../components/common/FormularioCliente';
 import { useNavigate } from "react-router-dom";
 
 const ListaClientes = () => {
@@ -13,39 +11,35 @@ const ListaClientes = () => {
 
   // 2. ZONA DE LÓGICA Y CONSUMO DE API (useEffect)
   useEffect(() => {
-    const obtenerClientes = async () => {
-      try {
-        setLoading(true);
-        const respuesta = await fetch('https://fakestoreapi.com/users');
-        if (!respuesta.ok) {
-          throw new Error('Error al conectar con el servidor');
-        }
-        const datos = await respuesta.json();
-        setClientes(datos); 
-        setLoading(false);
-      } catch (err) {
-        setError(err.message); 
-        setLoading(false);
+  const obtenerClientes = async () => {
+    try {
+      setLoading(true);
+      const respuesta = await fetch('https://fakestoreapi.com/users');
+      if (!respuesta.ok) throw new Error('Error al conectar con el servidor');
+      
+      const datos = await respuesta.json();
+      
+      const clienteLocal = localStorage.getItem('nuevo_cliente_card');
+      
+      if (clienteLocal) {
+        const nuevoUsuario = JSON.parse(clienteLocal);
+        setClientes([...datos, nuevoUsuario]);
+      } else {
+        setClientes(datos);
       }
-    };
-    obtenerClientes();
-  }, []);
-
-  // FUNCIÓN CALLBACK PARA ACOPLAR EL ALTA (MÓDULO C) CON ESTA LISTA LOCAL
-const agregarNuevoClienteALista = (nuevoCliente) => {
-  // Validación de seguridad: comprobamos que no exista ya un ID 11
-  const existeId = clientes.some(c => c.id === nuevoCliente.id);
-  if (!existeId) {
-    // CAMBIO DE ORDEN: Primero desestructuramos los clientes que ya estaban (1 al 10) 
-    // y al final empujamos el nuevoCliente (el 11)
-    setClientes([...clientes, nuevoCliente]); 
-  }
-};
+      
+      setLoading(false);
+    } catch (err) {
+      setError(err.message); 
+      setLoading(false);
+    }
+  };
+  obtenerClientes();
+}, []);
 
   // LÓGICA DEL PUNTO 2: FILTRADO DINÁMICO
   const clientesFiltrados = clientes.filter((user) => {
     const termino = busqueda.toLowerCase();
-    // Validaciones opcionales por si el formato del nuevo cliente difiere levemente de la API
     const apellido = user.name?.lastname?.toLowerCase() || '';
     const ciudad = user.address?.city?.toLowerCase() || '';
     return apellido.includes(termino) || ciudad.includes(termino);
@@ -53,21 +47,53 @@ const agregarNuevoClienteALista = (nuevoCliente) => {
 
   // LÓGICA DEL PUNTO 3: MANEJADOR DE CLIC PARA DETALLE
   const manejarVerDetalle = (id) => {
-    // Alerta interactiva para demostrar que el sistema captura el ID único del cliente para redireccionar
     navigate(`/clientes/${id}`);
-    
-    // Aquí es donde el sistema del grupo conectará con su router de rutas (ej: navigate(`/detalle/${id}`))
   };
+
+  if (loading) return <h2 style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'Arial, sans-serif' }}>Cargando lista de clientes...</h2>;
+  if (error) return <h2 style={{ textAlign: 'center', color: 'red', marginTop: '50px', fontFamily: 'Arial, sans-serif' }}>{error}</h2>;
 
   // 3. RENDERIZADO DE LA INTERFAZ GRÁFICA
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-
       
-      {/* INYECCIÓN DEL FORMULARIO INTEGRADO (MÓDULO C) PASANDO EL CALLBACK COMO PROP */}
-      <FormularioCliente alAgregarCliente={agregarNuevoClienteALista} />
+      {/* BOTON DE ALTA */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        marginBottom: '20px',
+        flexWrap: 'wrap',
+        gap: '15px'
+      }}>
+        <div>
+          <h2 style={{ margin: 0, color: '#333' }}>Módulo B: Vista de Clientes</h2>
+          <p style={{ color: '#666', margin: '5px 0 0 0' }}>Punto 1, 2 y 3 - Sistema Completo con Consumo de API, Buscador y Redirección</p>
+        </div>
+        <button
+          onClick={() => navigate('/clientes/nuevo')} 
+          style={{
+            backgroundColor: '#1976d2',
+            color: '#fff',
+            border: 'none',
+            padding: '12px 24px',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontSize: '15px',
+            fontWeight: 'bold',
+            boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+            transition: 'background-color 0.2s, transform 0.1s'
+          }}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#1565c0'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#1976d2'}
+          onMouseDown={(e) => e.target.style.transform = 'scale(0.98)'}
+          onMouseUp={(e) => e.target.style.transform = 'scale(1)'}
+        >
+          + Nuevo Cliente
+        </button>
+      </div>
 
-      <hr style={{ border: '0', height: '1px', backgroundColor: '#ccc', margin: '30px 0' }} />
+      <hr style={{ border: '0', height: '1px', backgroundColor: '#ccc', margin: '20px 0' }} />
       
       {/* CAJA DEL BUSCADOR (Punto 2) */}
       <div style={{ marginBottom: '20px' }}>
@@ -89,7 +115,7 @@ const agregarNuevoClienteALista = (nuevoCliente) => {
         />
       </div>
       
-{/* Contenedor de Cards de Clientes */}
+      {/* Contenedor de Cards de Clientes */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
@@ -111,14 +137,14 @@ const agregarNuevoClienteALista = (nuevoCliente) => {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontWeight: 'bold', fontSize: '17px', color: '#222' }}>
-                {user.name.firstname} {user.name.lastname}
+                {user.name?.firstname} {user.name?.lastname}
               </span>
               <span style={{ fontSize: '12px', color: '#999' }}>#{user.id}</span>
             </div>
 
             <span style={{ color: '#555', fontSize: '14px' }}>📧 {user.email}</span>
             <span style={{ color: '#555', fontSize: '14px' }}>📞 {user.phone}</span>
-            <span style={{ color: '#555', fontSize: '14px' }}>📍 {user.address.city}</span>
+            <span style={{ color: '#555', fontSize: '14px' }}>📍 {user.address?.city}</span>
 
             <button
               onClick={() => manejarVerDetalle(user.id)}
@@ -134,7 +160,7 @@ const agregarNuevoClienteALista = (nuevoCliente) => {
                 fontWeight: 'bold',
                 transition: 'background-color 0.2s'
               }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#1976d2'}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#1565c0'}
               onMouseOut={(e) => e.target.style.backgroundColor = '#1976d2'}
             >
               Ver Detalle

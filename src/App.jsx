@@ -8,27 +8,41 @@ import Footer from './components/layout/Footer';
 import { AdminContext } from './context/AdminContext'; 
 import DetalleCliente from "./views/DetalleCliente";
 import Dashboard from "./views/Dashboard";
+import FormularioCliente from './components/common/FormularioCliente';
 
 function App() {
   const { admin } = useContext(AdminContext); 
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/clientes" element={admin ? <ListaClientes /> : <Navigate to="/" />} 
-        />
-        <Route 
+      
+      <main style={{ flex: 1 }}>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          
+          <Route 
+            path="/clientes" 
+            element={admin ? <ListaClientes /> : <Navigate to="/" />} 
+          />
+          
+          <Route 
+            path="/clientes/nuevo" 
+            element={admin ? <FormularioCliente /> : <Navigate to="/" />} 
+          />
+
+          <Route 
             path="/clientes/:id"
             element={admin ? <DetalleCliente /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/dashboard"
-          element={admin ? <Dashboard /> : <Navigate to="/" />}
-        />
-      </Routes>
-      <main/>
+          />
+          
+          <Route
+            path="/dashboard"
+            element={admin ? <Dashboard /> : <Navigate to="/" />}
+          />
+        </Routes>
+      </main>
+
       <Footer/>
     </div>
   );

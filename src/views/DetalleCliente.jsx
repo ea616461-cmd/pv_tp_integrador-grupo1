@@ -26,22 +26,49 @@ function DetalleCliente() {
       try {
         setLoading(true);
 
-        // SALVAVIDAS TÉCNICO: Si es el ID 11 (creado localmente), simulamos la respuesta
+        //  INTERCEPTAMOS EL ID 11
         if (id === "11") {
-          const clienteSimulado = {
-            id: 11,
-            email: "cliente11@email.com",
-            username: "nuevocliente123",
-            password: "password123",
-            name: { firstname: "Cliente", lastname: "Simulado (ID 11)" },
-            address: { city: "Ciudad Alta", street: "Av. Siempre Viva", number: 742, zipcode: "4600" },
-            phone: "1-234-567-8901"
-          };
-          setCliente(clienteSimulado);
+          const datosGuardados = localStorage.getItem('nuevo_cliente_card');
+          
+          if (datosGuardados) {
+            const clienteParseado = JSON.parse(datosGuardados);
+            
+            // Estructuramos la información
+            setCliente({
+              id: 11,
+              email: clienteParseado.email,
+              username: (clienteParseado.name?.firstname || "nuevo").toLowerCase() + "123",
+              password: "password123",
+              name: { 
+                firstname: clienteParseado.name?.firstname || "Usuario", 
+                lastname: clienteParseado.name?.lastname || "Nuevo" 
+              },
+              address: { 
+                city: clienteParseado.address?.city || "Sin ciudad", 
+                street: "Av. Fascio", 
+                number: 123, 
+                zipcode: "4600" 
+              },
+              phone: clienteParseado.phone
+            });
+          } else {
+            // Backup por si se accede a /clientes/11 directamente sin crearlo antes
+            setCliente({
+              id: 11,
+              email: "cliente11@email.com",
+              username: "nuevocliente123",
+              password: "password123",
+              name: { firstname: "Cliente", lastname: "No Encontrado" },
+              address: { city: "San Salvador de Jujuy", street: "Av. Siempre Viva", number: 742, zipcode: "4600" },
+              phone: "1-234-567-8901"
+            });
+          }
+          
           setLoading(false);
-          return; // Cortamos la ejecución para que no vaya a la API real
+          return;
         }
 
+        // Si es del ID 1 al 10, busca normalmente en la API de internet
         const respuesta = await fetch(`https://fakestoreapi.com/users/${id}`);
 
         if (!respuesta.ok) {
@@ -72,8 +99,11 @@ function DetalleCliente() {
     if (!confirmar) return;
 
     try {
-      // Si es el ID simulado 11, salteamos la llamada real a la API para evitar el error 
-      if (id !== "11") {
+      // Si es el ID 11, lo borramos de la memoria del navegador para que desaparezca de las Cards
+      if (id === "11") {
+        localStorage.removeItem('nuevo_cliente_card');
+      } else {
+        // Si es de los originales (1 al 10), hacemos la petición DELETE simulada a internet
         const respuesta = await fetch(
           `https://fakestoreapi.com/users/${id}`,
           { method: "DELETE" }
