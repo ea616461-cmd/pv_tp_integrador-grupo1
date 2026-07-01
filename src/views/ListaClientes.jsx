@@ -50,8 +50,7 @@ const ListaClientes = () => {
   // 3. RENDERIZADO DE LA INTERFAZ GRÁFICA
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h2 style={{ marginBottom: '5px', color: '#333' }}>Módulo B: Vista de Clientes</h2>
-      <p style={{ color: '#666', marginBottom: '20px' }}>Punto 1, 2 y 3 - Sistema Completo con Consumo de API, Buscador y Redirección</p>
+
       
       {/* INYECCIÓN DEL FORMULARIO INTEGRADO (MÓDULO C) */}
       <FormularioCliente />
@@ -78,56 +77,58 @@ const ListaClientes = () => {
         />
       </div>
       
-      {/* Contenedor de la Tabla Profesional */}
-      <div style={{ overflowX: 'auto', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', borderRadius: '8px' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', backgroundColor: '#fff' }}>
-          
-          <thead>
-            <tr style={{ backgroundColor: '#1976d2', color: '#fff' }}>
-              <th style={{ padding: '12px 15px', borderBottom: '1px solid #ddd' }}>ID</th>
-              <th style={{ padding: '12px 15px', borderBottom: '1px solid #ddd' }}>Nombre Completo</th>
-              <th style={{ padding: '12px 15px', borderBottom: '1px solid #ddd' }}>Email</th>
-              <th style={{ padding: '12px 15px', borderBottom: '1px solid #ddd' }}>Teléfono</th>
-              <th style={{ padding: '12px 15px', borderBottom: '1px solid #ddd' }}>Ciudad</th>
-              <th style={{ padding: '12px 15px', borderBottom: '1px solid #ddd', textAlign: 'center' }}>Acciones</th>
-            </tr>
-          </thead>
-          
-          <tbody>
-            {clientesFiltrados.map((user) => (
-              <tr key={user.id} style={{ borderBottom: '1px solid #eee' }}>
-                <td style={{ padding: '12px 15px', fontWeight: 'bold', color: '#555' }}>{user.id}</td>
-                <td style={{ padding: '12px 15px' }}>{user.name.firstname} {user.name.lastname}</td>
-                <td style={{ padding: '12px 15px', color: '#555' }}>{user.email}</td>
-                <td style={{ padding: '12px 15px', color: '#555' }}>{user.phone}</td>
-                <td style={{ padding: '12px 15px', color: '#555' }}>{user.address.city}</td>
-                
-                {/* BOTÓN DE ACCIÓN (Punto 3) */}
-                <td style={{ padding: '12px 15px', textAlign: 'center' }}>
-                  <button
-                    onClick={() => manejarVerDetalle(user.id)}
-                    style={{
-                      backgroundColor: '#2e7d32',
-                      color: '#fff',
-                      border: 'none',
-                      padding: '6px 12px',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '14px',
-                      fontWeight: 'bold',
-                      transition: 'background-color 0.2s'
-                    }}
-                    onMouseOver={(e) => e.target.style.backgroundColor = '#1b5e20'}
-                    onMouseOut={(e) => e.target.style.backgroundColor = '#2e7d32'}
-                  >
-                    Ver Detalle
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+{/* Contenedor de Cards de Clientes */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+        gap: '20px'
+      }}>
+        {clientesFiltrados.map((user) => (
+          <div
+            key={user.id}
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: '10px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+              padding: '18px',
+              borderLeft: '4px solid #1976d2',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px'
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '17px', color: '#222' }}>
+                {user.name.firstname} {user.name.lastname}
+              </span>
+              <span style={{ fontSize: '12px', color: '#999' }}>#{user.id}</span>
+            </div>
 
-        </table>
+            <span style={{ color: '#555', fontSize: '14px' }}>📧 {user.email}</span>
+            <span style={{ color: '#555', fontSize: '14px' }}>📞 {user.phone}</span>
+            <span style={{ color: '#555', fontSize: '14px' }}>📍 {user.address.city}</span>
+
+            <button
+              onClick={() => manejarVerDetalle(user.id)}
+              style={{
+                marginTop: '10px',
+                backgroundColor: '#2e7d32',
+                color: '#fff',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#1b5e20'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#2e7d32'}
+            >
+              Ver Detalle
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
