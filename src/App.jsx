@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import ListaClientes from './views/ListaClientes';
 import Login from './views/Login';
 import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 import { AdminContext } from './context/AdminContext'; 
 import DetalleCliente from "./views/DetalleCliente";
 import Dashboard from "./views/Dashboard";
@@ -27,6 +28,8 @@ function App() {
           element={admin ? <Dashboard /> : <Navigate to="/" />}
         />
       </Routes>
+      <main/>
+      <Footer/>
     </div>
   );
 }

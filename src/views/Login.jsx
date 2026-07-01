@@ -22,6 +22,7 @@ export default function Login() {
   // MUESTRA LA TARJETA EN VEZ DEL FORMULARIO
   if (admin) {
     return (
+      
       <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #ccc', textAlign: 'center', background: '#f9f9f9', borderRadius: '8px' }}>
         <h2>Sesión Activa</h2>
         
@@ -51,7 +52,7 @@ export default function Login() {
 
   // EL FORMULARIO ORIGINAL
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #ccc' }}>
+    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #ccc',  borderRadius: '8px' }}>
       <h2>Acceso al Sistema</h2>
       <form onSubmit={handleFormulario}>
         <div style={{ marginBottom: '15px' }}>
@@ -77,7 +78,7 @@ export default function Login() {
           </select>
         </div>
 
-        <button type="submit" style={{ width: '100%', padding: '10px', background: '#4CAF50', color: 'white', border: 'none', cursor: 'pointer' }}>
+        <button type="submit" style={{ width: '100%', padding: '10px', background: '#1976d2', color: 'white', border: 'none', cursor: 'pointer', borderRadius: '8px' }}>
           Ingresar
         </button>
       </form>

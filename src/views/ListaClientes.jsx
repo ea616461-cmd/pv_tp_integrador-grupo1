@@ -124,7 +124,7 @@ const agregarNuevoClienteALista = (nuevoCliente) => {
               onClick={() => manejarVerDetalle(user.id)}
               style={{
                 marginTop: '10px',
-                backgroundColor: '#2e7d32',
+                backgroundColor: '#1976d2',
                 color: '#fff',
                 border: 'none',
                 padding: '8px 12px',
@@ -134,8 +134,8 @@ const agregarNuevoClienteALista = (nuevoCliente) => {
                 fontWeight: 'bold',
                 transition: 'background-color 0.2s'
               }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#1b5e20'}
-              onMouseOut={(e) => e.target.style.backgroundColor = '#2e7d32'}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#1976d2'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#1976d2'}
             >
               Ver Detalle
             </button>
