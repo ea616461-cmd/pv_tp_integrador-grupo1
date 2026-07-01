@@ -67,8 +67,8 @@ const ListaClientes = () => {
         gap: '15px'
       }}>
         <div>
-          <h2 style={{ margin: 0, color: '#333' }}>Módulo B: Vista de Clientes</h2>
-          <p style={{ color: '#666', margin: '5px 0 0 0' }}>Punto 1, 2 y 3 - Sistema Completo con Consumo de API, Buscador y Redirección</p>
+          <h2 style={{ margin: 0, color: '#1976d2', fontWeight: 'bold', fontSize: '24px' }}>Vista de Clientes</h2>
+         
         </div>
         <button
           onClick={() => navigate('/clientes/nuevo')} 
