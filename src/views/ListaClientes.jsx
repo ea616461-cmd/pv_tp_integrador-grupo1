@@ -31,11 +31,23 @@ const ListaClientes = () => {
     obtenerClientes();
   }, []);
 
+  // FUNCIÓN CALLBACK PARA ACOPLAR EL ALTA (MÓDULO C) CON ESTA LISTA LOCAL
+const agregarNuevoClienteALista = (nuevoCliente) => {
+  // Validación de seguridad: comprobamos que no exista ya un ID 11
+  const existeId = clientes.some(c => c.id === nuevoCliente.id);
+  if (!existeId) {
+    // CAMBIO DE ORDEN: Primero desestructuramos los clientes que ya estaban (1 al 10) 
+    // y al final empujamos el nuevoCliente (el 11)
+    setClientes([...clientes, nuevoCliente]); 
+  }
+};
+
   // LÓGICA DEL PUNTO 2: FILTRADO DINÁMICO
   const clientesFiltrados = clientes.filter((user) => {
     const termino = busqueda.toLowerCase();
-    const apellido = user.name.lastname.toLowerCase();
-    const ciudad = user.address.city.toLowerCase();
+    // Validaciones opcionales por si el formato del nuevo cliente difiere levemente de la API
+    const apellido = user.name?.lastname?.toLowerCase() || '';
+    const ciudad = user.address?.city?.toLowerCase() || '';
     return apellido.includes(termino) || ciudad.includes(termino);
   });
 
@@ -53,8 +65,8 @@ const ListaClientes = () => {
       <h2 style={{ marginBottom: '5px', color: '#333' }}>Módulo B: Vista de Clientes</h2>
       <p style={{ color: '#666', marginBottom: '20px' }}>Punto 1, 2 y 3 - Sistema Completo con Consumo de API, Buscador y Redirección</p>
       
-      {/* INYECCIÓN DEL FORMULARIO INTEGRADO (MÓDULO C) */}
-      <FormularioCliente />
+      {/* INYECCIÓN DEL FORMULARIO INTEGRADO (MÓDULO C) PASANDO EL CALLBACK COMO PROP */}
+      <FormularioCliente alAgregarCliente={agregarNuevoClienteALista} />
 
       <hr style={{ border: '0', height: '1px', backgroundColor: '#ccc', margin: '30px 0' }} />
       
@@ -97,10 +109,10 @@ const ListaClientes = () => {
             {clientesFiltrados.map((user) => (
               <tr key={user.id} style={{ borderBottom: '1px solid #eee' }}>
                 <td style={{ padding: '12px 15px', fontWeight: 'bold', color: '#555' }}>{user.id}</td>
-                <td style={{ padding: '12px 15px' }}>{user.name.firstname} {user.name.lastname}</td>
+                <td style={{ padding: '12px 15px' }}>{user.name?.firstname} {user.name?.lastname}</td>
                 <td style={{ padding: '12px 15px', color: '#555' }}>{user.email}</td>
                 <td style={{ padding: '12px 15px', color: '#555' }}>{user.phone}</td>
-                <td style={{ padding: '12px 15px', color: '#555' }}>{user.address.city}</td>
+                <td style={{ padding: '12px 15px', color: '#555' }}>{user.address?.city}</td>
                 
                 {/* BOTÓN DE ACCIÓN (Punto 3) */}
                 <td style={{ padding: '12px 15px', textAlign: 'center' }}>
