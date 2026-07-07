@@ -103,16 +103,30 @@ function DetalleCliente() {
       if (id === "11") {
         localStorage.removeItem('nuevo_cliente_card');
       } else {
-        // Si es de los originales (1 al 10), hacemos la petición DELETE simulada a internet
-        const respuesta = await fetch(
-          `https://fakestoreapi.com/users/${id}`,
-          { method: "DELETE" }
-        );
 
-        if (!respuesta.ok) {
-          throw new Error("No se pudo eliminar el cliente");
-        }
-      }
+  // DELETE simulado
+  const respuesta = await fetch(
+    `https://fakestoreapi.com/users/${id}`,
+    { method: "DELETE" }
+  );
+
+  if (!respuesta.ok) {
+    throw new Error("No se pudo eliminar el cliente");
+  }
+
+  // Guardamos el ID eliminado
+  const eliminados =
+    JSON.parse(localStorage.getItem("clientes_eliminados")) || [];
+
+  if (!eliminados.includes(Number(id))) {
+    eliminados.push(Number(id));
+  }
+
+  localStorage.setItem(
+    "clientes_eliminados",
+    JSON.stringify(eliminados)
+  );
+}
 
       alert("Cliente eliminado correctamente (Simulado).");
       navigate("/clientes");
@@ -122,19 +136,19 @@ function DetalleCliente() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4 }}>
+    <Container maxWidth="lg" sx={{ mt: 5, display: "flex", flexDirection: "column", alignItems: "center",  p: 5, borderRadius: 3, background: "linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%)", }}>
       <Typography
         variant="h4"
         align="center"
-        sx={{ mb: 4, fontWeight: "bold" }}
+        sx={{ mb: 4, fontWeight: "bold", color: "#1976d2"}}
       >
         Ficha del Cliente
       </Typography>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={3} justifyContent="center" alignItems="stretch">
         {/* Información personal */}
         <Grid item xs={12} md={4}>
-          <Card elevation={5}>
+          <Card elevation={5} sx={{ height: "100%", minHeight: 280, display: "flex", transition: "0.3s", "&:hover": { transform: "translateY(-6px)", boxShadow: 10, }, }}>
             <CardContent>
               <PersonIcon color="primary" sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h6" gutterBottom>
@@ -149,7 +163,7 @@ function DetalleCliente() {
 
         {/* Dirección */}
         <Grid item xs={12} md={4}>
-          <Card elevation={5}>
+          <Card elevation={5} sx={{ height: "100%", minHeight: 280, display: "flex", transition: "0.3s", "&:hover": { transform: "translateY(-6px)", boxShadow: 10, }, }}>
             <CardContent>
               <HomeIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h6" gutterBottom>
@@ -165,14 +179,15 @@ function DetalleCliente() {
 
         {/* Credenciales */}
         <Grid item xs={12} md={4}>
-          <Card elevation={5}>
+          <Card elevation={5} sx={{ height: "100%", minHeight: 280, display: "flex", transition: "0.3s", "&:hover": { transform: "translateY(-6px)", boxShadow: 10, }, }}>
             <CardContent>
               <LockIcon color="warning" sx={{ fontSize: 40, mb: 1 }} />
               <Typography variant="h6" gutterBottom>
                 Credenciales
               </Typography>
               <Typography><strong>Usuario:</strong> {cliente?.username}</Typography>
-              <Typography><strong>Contraseña:</strong> {cliente?.password}</Typography>
+              <Typography><strong>ID Cliente:</strong> {cliente?.id}</Typography>
+              <Typography><strong>Estado:</strong> Activo</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -180,10 +195,12 @@ function DetalleCliente() {
 
       <div
         style={{
-          marginTop: "30px",
+          marginTop: "40px",
+          marginBottom: "60px",
           display: "flex",
           justifyContent: "center",
-          gap: "15px",
+          gap: "20px",
+          width: "100%"
         }}
       >
         <Button

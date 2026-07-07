@@ -17,16 +17,28 @@ const ListaClientes = () => {
       const respuesta = await fetch('https://fakestoreapi.com/users');
       if (!respuesta.ok) throw new Error('Error al conectar con el servidor');
       
-      const datos = await respuesta.json();
-      
-      const clienteLocal = localStorage.getItem('nuevo_cliente_card');
-      
-      if (clienteLocal) {
-        const nuevoUsuario = JSON.parse(clienteLocal);
-        setClientes([...datos, nuevoUsuario]);
-      } else {
-        setClientes(datos);
-      }
+const datos = await respuesta.json();
+
+// Copiamos los clientes de la API
+let listaClientes = [...datos];
+
+// Agregamos el cliente creado localmente (ID 11)
+const clienteLocal = localStorage.getItem("nuevo_cliente_card");
+
+if (clienteLocal) {
+  listaClientes.push(JSON.parse(clienteLocal));
+}
+
+// Leemos los clientes eliminados
+const eliminados =
+  JSON.parse(localStorage.getItem("clientes_eliminados")) || [];
+
+// Filtramos los eliminados
+listaClientes = listaClientes.filter(
+  (cliente) => !eliminados.includes(cliente.id)
+);
+
+setClientes(listaClientes);
       
       setLoading(false);
     } catch (err) {

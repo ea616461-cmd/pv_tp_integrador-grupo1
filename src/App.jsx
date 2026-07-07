@@ -1,5 +1,5 @@
 //componente principal de enrutamiento 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ListaClientes from './views/ListaClientes';
 import Login from './views/Login';
@@ -12,6 +12,11 @@ import FormularioCliente from './components/common/FormularioCliente';
 
 function App() {
   const { admin } = useContext(AdminContext); 
+
+  useEffect(() => {
+  localStorage.removeItem("clientes_eliminados");
+  localStorage.removeItem("nuevo_cliente_card");
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>

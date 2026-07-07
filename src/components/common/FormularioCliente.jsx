@@ -113,7 +113,19 @@ export default function FormularioCliente() {
                     </div>
                     <div>
                         <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '14px' }}>Ciudad:</label>
-                        <input type="text" name="ciudad" required value={cliente.ciudad} onChange={handleChange} style={inputStyle} />
+                        <select name="ciudad" required value={cliente.ciudad} onChange={handleChange} style={inputStyle}>
+                            <option value="">Seleccione una ciudad</option>
+                            <option value="San Salvador de Jujuy">San Salvador de Jujuy</option>
+                            <option value="Palpalá">Palpalá</option>
+                            <option value="Perico">Perico</option>
+                            <option value="San Pedro">San Pedro</option>
+                            <option value="Libertador General San Martín">Libertador General San Martín</option>
+                            <option value="Tilcara">Tilcara</option>
+                            <option value="Humahuaca">Humahuaca</option>
+                            <option value="La Quiaca">La Quiaca</option>
+                            <option value="El Carmen">El Carmen</option>
+                            <option value="Monterrico">Monterrico</option>
+                        </select>
                     </div>
                 </div>
                 
